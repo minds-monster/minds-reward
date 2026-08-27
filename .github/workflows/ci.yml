@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# CI builds, tests, and gates merges. It never deploys: deployment spends real money and
+# creates permanent state, so it stays an explicit human action (architecture §7).
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Lint, test, coverage gate
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      # Lockfile only, never a fresh resolve — architecture risk 7 treats the Node
+      # dependency graph as supply-chain surface.
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint and format check
+        run: npm run lint
+
+      - name: Build contracts
+        run: npm run build
+
+      # Run the suite uninstrumented first. Coverage mode disables blockGasLimit and
+      # transactionGasCap, so a test can pass under coverage and fail in a normal run.
+      - name: Test
+        run: npm test
+
+      - name: Test with coverage
+        run: npm run coverage
+
+      # NFR-MNT-001 + NFR-MNT-004: block merge below the threshold.
+      #
+      # COVERAGE_ALLOW_UNMEASURED_BRANCHES is set deliberately and visibly. Hardhat 3
+      # cannot emit branch coverage (see scripts/check-coverage.ts and
+      # docs/scaffold-notes.md), so the branch half of NFR-MNT-001 is unverified by
+      # tooling and rests on NFR-MNT-002 instead. This flag exists so that gap is
+      # documented here in the pipeline rather than hidden behind a green check.
+      # Remove it once the open decision on NFR-MNT-001 is resolved.
+      - name: Coverage gate
+        env:
+          COVERAGE_ALLOW_UNMEASURED_BRANCHES: "1"
+        run: npm run coverage:check
