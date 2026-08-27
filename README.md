@@ -13,8 +13,7 @@ the user interface.
 
 **Current state: live on Base Sepolia.** Owner and
 manager control, minting, pause, single and batch allocation, claim hardening, accounting
-views, and ETH rejection are implemented and tested. Remaining work is the event audit,
-the rest of the deployment gate, the Allocation CLI, and the documentation slices. See
+views, and ETH rejection are implemented and tested. See
 [What exists today](#what-exists-today).
 
 ## Prerequisites
@@ -65,7 +64,6 @@ contracts/         Production Solidity. This is the audit surface, and the cover
 test/              Solidity unit tests (*.t.sol) and TypeScript integration tests (*.ts).
 ignition/modules/  Hardhat Ignition deployment modules — deploy and wiring in one run.
 scripts/           Operator-side scripts: post-deploy check, coverage gate.
-docs/              The pipeline documents above, plus per-feature designs and the live deployment record.
 ```
 
 Solidity tests live in `test/`, not beside the contracts, so that `contracts/` contains
