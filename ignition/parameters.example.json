@@ -1,0 +1,7 @@
+{
+  "RewardSystem": {
+    "tokenName": "REPLACE_ME — token name, TBD-1",
+    "tokenSymbol": "REPLACE_ME",
+    "owner": "0xREPLACE_ME — the account that should own both contracts after deployment"
+  }
+}
