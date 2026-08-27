@@ -1,0 +1,16 @@
+node_modules
+artifacts
+cache
+coverage
+types
+dist
+ignition/deployments
+
+# Pipeline documents are authored by the SDLC skills; reformatting them creates
+# meaningless diffs against the documents' own conventions.
+docs
+
+# Installed agent skills are third-party content with a lockfile of content hashes
+# (skills-lock.json). Formatting them changes those hashes and corrupts the install.
+.agents
+.claude

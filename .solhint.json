@@ -1,0 +1,11 @@
+{
+  "extends": "solhint:recommended",
+  "rules": {
+    "compiler-version": ["error", "0.8.28"],
+    "max-line-length": ["error", 110],
+    "func-visibility": ["error", { "ignoreConstructors": true }],
+    "named-parameters-mapping": "off",
+    "foundry-test-functions": "off",
+    "gas-custom-errors": "error"
+  }
+}
